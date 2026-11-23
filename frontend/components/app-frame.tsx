@@ -11,6 +11,11 @@ import { applyThemePreference, applyUiTheme, readStoredThemePreference } from "@
 
 // Pages that render standalone — no Shell, no OnboardingLayout.
 const STANDALONE_PATHS = ["/", "/landing"];
+
+// The landing page also lives at /landing/pt, /landing/es and /landing/fr.
+function isStandalone(pathname: string) {
+  return STANDALONE_PATHS.includes(pathname) || pathname.startsWith("/landing/");
+}
 const ONBOARDING_COMPLETE_EVENT = "stark:onboarding-complete";
 
 export function AppFrame({ children }: { children: ReactNode }) {
@@ -73,7 +78,7 @@ export function AppFrame({ children }: { children: ReactNode }) {
     }
 
     // Landing page is always accessible — never redirect away from it.
-    if (STANDALONE_PATHS.includes(pathname)) {
+    if (isStandalone(pathname)) {
       return;
     }
 
@@ -99,7 +104,7 @@ export function AppFrame({ children }: { children: ReactNode }) {
   }
 
   // Standalone pages render without any app chrome.
-  if (STANDALONE_PATHS.includes(pathname)) {
+  if (isStandalone(pathname)) {
     return <>{children}</>;
   }
 

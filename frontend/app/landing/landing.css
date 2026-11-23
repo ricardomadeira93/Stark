@@ -1,0 +1,759 @@
+/*
+  Stark landing page.
+
+  Direction: a document with a highlighter on it. Light mode is paper and
+  blue-black ink, dark mode is graphite. The one saturated colour is highlighter
+  yellow, used only where the page shows a cited passage, because that mark is
+  what the product is about. Blue appears only on links.
+*/
+
+.sk {
+  /* colour */
+  --sk-ground: #f7f7f5;
+  --sk-surface: #ffffff;
+  --sk-ink: #15202b;
+  --sk-ink-2: #44525f;
+  --sk-line: #dcdfe2;
+  --sk-link: #1f5f8b;
+  --sk-mark: #f5d90a;
+  --sk-mark-ink: #15202b;
+  --sk-code-bg: #15202b;
+  --sk-code-ink: #e9ecef;
+  --sk-code-cap: #9aa6b1;
+
+  /* type scale, ratio 1.25 from a 17px base */
+  --t-xs: 0.85rem;
+  --t-base: 1.0625rem;
+  --t-md: 1.328rem;
+  --t-lg: 1.66rem;
+  --t-xl: 2.075rem;
+  --t-2xl: 2.59rem;
+  --t-hero: clamp(2.1rem, 5vw, 3.24rem);
+
+  /* spacing, 4px base */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+
+  background: var(--sk-ground);
+  color: var(--sk-ink);
+  font-family: var(--font-sk-body), ui-sans-serif, sans-serif;
+  font-size: var(--t-base);
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+html.dark .sk {
+  --sk-ground: #131517;
+  --sk-surface: #1b1e21;
+  --sk-ink: #e9ecef;
+  --sk-ink-2: #a3acb5;
+  --sk-line: rgba(233, 236, 239, 0.16);
+  --sk-link: #8ec3e8;
+  --sk-mark: #f2cf3a;
+  --sk-mark-ink: #131517;
+  --sk-code-bg: #0d0f10;
+  --sk-code-ink: #e9ecef;
+  --sk-code-cap: #8b96a0;
+}
+
+.sk *,
+.sk *::before,
+.sk *::after {
+  box-sizing: border-box;
+}
+
+.sk a {
+  color: var(--sk-link);
+  text-underline-offset: 3px;
+}
+
+.sk :focus-visible {
+  outline: 2px solid var(--sk-mark);
+  outline-offset: 2px;
+}
+
+.sk-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+}
+
+@media (min-width: 768px) {
+  .sk-wrap {
+    padding: 0 var(--s-6);
+  }
+}
+
+/* ---- header ---- */
+
+.sk-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--sk-ground);
+  border-bottom: 1px solid var(--sk-line);
+}
+
+.sk-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.sk-brand {
+  font-family: var(--font-sk-display), sans-serif;
+  font-weight: 700;
+  font-size: var(--t-md);
+  color: var(--sk-ink);
+}
+
+.sk-nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  font-size: 0.9375rem;
+}
+
+.sk-nav__links a:not(.sk-btn) {
+  color: var(--sk-ink-2);
+  text-decoration: none;
+}
+
+.sk-nav__links a:not(.sk-btn):hover {
+  color: var(--sk-ink);
+  text-decoration: underline;
+}
+
+/* language selector: a native select, styled to match */
+.sk-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.sk-select select {
+  height: 36px;
+  min-width: 7.5rem;
+  padding: 0 var(--s-6) 0 var(--s-3);
+  appearance: none;
+  background: var(--sk-surface);
+  color: var(--sk-ink);
+  border: 1px solid var(--sk-line);
+  border-radius: 2px;
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: border-color 160ms ease;
+}
+
+.sk-select select:hover {
+  border-color: var(--sk-ink-2);
+}
+
+.sk-select::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid var(--sk-ink-2);
+  border-bottom: 1.5px solid var(--sk-ink-2);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .sk-nav__links a:not(.sk-btn) {
+    display: none;
+  }
+
+  /* The hero repeats the demo button, so the nav drops it to make room. */
+  .sk .sk-btn.sk-nav__cta {
+    display: none;
+  }
+
+  .sk-nav__links {
+    gap: var(--s-3);
+  }
+}
+
+/* ---- buttons ---- */
+
+.sk .sk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 var(--s-5);
+  background: var(--sk-ink);
+  color: var(--sk-ground);
+  border: 1px solid var(--sk-ink);
+  border-radius: 2px;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.sk .sk-btn:hover {
+  background: var(--sk-link);
+  border-color: var(--sk-link);
+  color: var(--sk-ground);
+}
+
+html.dark .sk .sk-btn:hover {
+  color: var(--sk-mark-ink);
+}
+
+.sk .sk-btn--sm {
+  min-height: 36px;
+  padding: 0 var(--s-4);
+}
+
+.sk .sk-btn--ghost {
+  background: transparent;
+  color: var(--sk-ink);
+  border-color: var(--sk-line);
+}
+
+.sk .sk-btn--ghost:hover {
+  background: transparent;
+  color: var(--sk-ink);
+  border-color: var(--sk-ink);
+}
+
+html.dark .sk .sk-btn--ghost:hover {
+  color: var(--sk-ink);
+}
+
+/* ---- headings ---- */
+
+.sk-h1,
+.sk-h2,
+.sk-h3 {
+  font-family: var(--font-sk-display), sans-serif;
+  color: var(--sk-ink);
+  margin: 0;
+}
+
+.sk-h1 {
+  font-weight: 700;
+  font-size: var(--t-hero);
+  line-height: 1.12;
+  max-width: 14em;
+  text-wrap: balance;
+}
+
+.sk-h2 {
+  font-weight: 700;
+  font-size: clamp(1.66rem, 3.6vw, var(--t-2xl));
+  line-height: 1.15;
+}
+
+.sk-h3 {
+  font-weight: 600;
+  font-size: var(--t-md);
+  line-height: 1.25;
+}
+
+.sk-lede {
+  margin: var(--s-5) 0 0;
+  max-width: 30rem;
+  color: var(--sk-ink-2);
+  font-size: 1.1875rem;
+}
+
+.sk-intro {
+  margin: var(--s-4) 0 0;
+  max-width: 38rem;
+  color: var(--sk-ink-2);
+}
+
+.sk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+.sk-note {
+  margin: var(--s-5) 0 0;
+  max-width: 30rem;
+  font-size: var(--t-xs);
+  color: var(--sk-ink-2);
+}
+
+/* ---- hero ---- */
+
+.sk-hero {
+  display: grid;
+  gap: var(--s-7);
+  padding-top: var(--s-7);
+  padding-bottom: var(--s-8);
+}
+
+@media (min-width: 980px) {
+  .sk-hero {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    align-items: center;
+    gap: var(--s-8);
+    padding-top: var(--s-9);
+    padding-bottom: var(--s-9);
+  }
+}
+
+/* ---- the answer example ---- */
+
+.sk-frame {
+  margin: 0;
+  background: var(--sk-surface);
+  border: 1px solid var(--sk-line);
+  border-radius: 2px;
+}
+
+.sk-frame__bar {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-5);
+  border-bottom: 1px solid var(--sk-line);
+  font-size: var(--t-xs);
+  color: var(--sk-ink-2);
+}
+
+.sk-frame__name {
+  font-weight: 500;
+  color: var(--sk-ink);
+}
+
+.sk-frame__body {
+  padding: var(--s-5);
+}
+
+.sk-q {
+  margin: 0;
+  font-weight: 500;
+  color: var(--sk-ink);
+}
+
+.sk-a {
+  margin: var(--s-4) 0 0;
+  color: var(--sk-ink);
+}
+
+.sk-cite {
+  margin: 0 2px 0 3px;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 4px;
+  vertical-align: 0.15em;
+  background: transparent;
+  color: var(--sk-link);
+  border: 1px solid var(--sk-link);
+  border-radius: 2px;
+  font-family: var(--font-sk-mono), monospace;
+  font-size: var(--t-xs);
+  line-height: 1;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.sk-cite.is-active {
+  background: var(--sk-link);
+  color: var(--sk-ground);
+}
+
+html.dark .sk-cite.is-active {
+  color: var(--sk-mark-ink);
+}
+
+.sk-sources {
+  list-style: none;
+  margin: var(--s-5) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+
+/* The whole card is one button, so the click target is the full card. */
+.sk-source {
+  display: block;
+  width: 100%;
+  padding: var(--s-3) var(--s-4);
+  background: transparent;
+  border: 1px solid var(--sk-line);
+  border-radius: 2px;
+  color: var(--sk-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.sk-source:hover {
+  border-color: var(--sk-ink-2);
+}
+
+.sk-source.is-active {
+  border-color: var(--sk-link);
+}
+
+.sk-source__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  font-size: var(--t-xs);
+}
+
+.sk-source__n {
+  font-family: var(--font-sk-mono), monospace;
+  color: var(--sk-link);
+}
+
+.sk-source__file {
+  font-weight: 500;
+}
+
+.sk-source__where {
+  margin-left: auto;
+  color: var(--sk-ink-2);
+}
+
+.sk-source__text {
+  display: block;
+  margin: 0;
+  padding: var(--s-2) 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--sk-ink-2);
+}
+
+/* The one bold element: a highlighter stroke that draws across the cited words. */
+.sk-mark {
+  background: linear-gradient(var(--sk-mark), var(--sk-mark)) no-repeat 0 100% / 0% 100%;
+  color: inherit;
+  padding: 0 1px;
+  transition: background-size 650ms cubic-bezier(0.2, 0.7, 0.2, 1), color 200ms ease;
+}
+
+.sk-mark.is-on {
+  background-size: 100% 100%;
+  color: var(--sk-mark-ink);
+}
+
+.sk-frame__cap {
+  padding: var(--s-3) var(--s-5);
+  border-top: 1px solid var(--sk-line);
+  font-size: var(--t-xs);
+  color: var(--sk-ink-2);
+}
+
+/* ---- sections ---- */
+
+.sk-section {
+  padding: var(--s-8) 0;
+  border-top: 1px solid var(--sk-line);
+  scroll-margin-top: 64px;
+  /* Below the fold, skip rendering work until the section is close to view. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
+}
+
+@media (min-width: 768px) {
+  .sk-section {
+    padding: var(--s-9) 0;
+  }
+}
+
+/* ---- the retrieval flow ---- */
+
+.sk-flowwrap {
+  position: relative;
+  margin-top: var(--s-6);
+}
+
+.sk-replay {
+  display: block;
+  margin: 0 0 var(--s-2) auto;
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--sk-link);
+  font: inherit;
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* One marker travels through the stages. Only transform and opacity animate. */
+.sk-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  background: var(--sk-mark);
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  transition: transform 520ms cubic-bezier(0.65, 0, 0.35, 1), opacity 200ms ease;
+}
+
+.sk-marker.is-on {
+  opacity: 1;
+  will-change: transform;
+}
+
+.sk-flowmark {
+  padding: 0 2px;
+  background: linear-gradient(var(--sk-mark), var(--sk-mark)) no-repeat 0 100% / 0% 100%;
+  transition: background-size 520ms cubic-bezier(0.2, 0.7, 0.2, 1), color 200ms ease;
+}
+
+.sk-flowmark.is-on {
+  background-size: 100% 100%;
+  color: var(--sk-mark-ink);
+}
+
+.sk-flow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+.sk-node,
+.sk-pair .sk-node {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-4);
+  background: var(--sk-surface);
+  border: 1px solid var(--sk-line);
+  border-radius: 2px;
+  transition: border-color 240ms ease;
+}
+
+.sk-node[data-lit="true"] {
+  border-color: var(--sk-link);
+}
+
+.sk-node strong {
+  font-weight: 500;
+  color: var(--sk-ink);
+}
+
+.sk-node span {
+  font-size: var(--t-xs);
+  color: var(--sk-ink-2);
+  line-height: 1.5;
+}
+
+.sk-pair {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.sk-arrow {
+  position: relative;
+  height: 28px;
+  width: 1px;
+  margin: 0 auto;
+  background: var(--sk-line);
+  transition: background-color 240ms ease;
+}
+
+.sk-arrow::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid var(--sk-line);
+  border-bottom: 1px solid var(--sk-line);
+  transform: translateX(-50%) rotate(45deg);
+  transition: border-color 240ms ease;
+}
+
+.sk-arrow[data-lit="true"] {
+  background: var(--sk-link);
+}
+
+.sk-arrow[data-lit="true"]::after {
+  border-color: var(--sk-link);
+}
+
+@media (min-width: 900px) {
+  .sk-flow {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .sk-flow > .sk-node,
+  .sk-flow > .sk-pair {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .sk-arrow {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 1px;
+    margin: 0;
+  }
+
+  .sk-arrow::after {
+    left: auto;
+    right: 0;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+}
+
+/* ---- features ---- */
+
+.sk-features {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7) var(--s-6);
+  margin-top: var(--s-7);
+}
+
+.sk-feature {
+  min-width: 0;
+  transition: opacity 560ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 560ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Hidden only once the script has armed it and the card is still below the fold. */
+.sk-feature.is-pending {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+
+/* The code lines appear one after another, like command output. */
+.sk-line {
+  display: block;
+  transition: opacity 320ms ease, transform 320ms ease;
+  transition-delay: calc(260ms + var(--l, 0) * 70ms + var(--i, 0) * 90ms);
+}
+
+.sk-feature.is-pending .sk-line {
+  opacity: 0;
+  transform: translate3d(-6px, 0, 0);
+}
+
+.sk-feature:hover .sk-code {
+  border-color: var(--sk-link);
+}
+
+@media (min-width: 900px) {
+  .sk-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.sk-feature p {
+  margin: var(--s-3) 0 0;
+  color: var(--sk-ink-2);
+  max-width: 34rem;
+}
+
+.sk-code {
+  margin: var(--s-5) 0 0;
+  background: var(--sk-code-bg);
+  border: 1px solid var(--sk-line);
+  border-radius: 2px;
+  transition: border-color 180ms ease;
+}
+
+.sk-code figcaption {
+  padding: var(--s-2) var(--s-4);
+  border-bottom: 1px solid rgba(232, 239, 245, 0.14);
+  font-family: var(--font-sk-mono), monospace;
+  font-size: var(--t-xs);
+  color: var(--sk-code-cap);
+}
+
+.sk-code pre {
+  margin: 0;
+  padding: var(--s-4);
+  overflow-x: auto;
+}
+
+.sk-code code {
+  font-family: var(--font-sk-mono), monospace;
+  font-size: var(--t-xs);
+  line-height: 1.7;
+  color: var(--sk-code-ink);
+}
+
+/* ---- closing ---- */
+
+.sk-close__inner {
+  display: grid;
+  gap: var(--s-6);
+  align-items: end;
+}
+
+.sk-close .sk-actions {
+  margin-top: 0;
+}
+
+@media (min-width: 900px) {
+  .sk-close__inner {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.sk-foot {
+  padding: var(--s-6) 0 var(--s-7);
+  border-top: 1px solid var(--sk-line);
+  font-size: var(--t-xs);
+  color: var(--sk-ink-2);
+}
+
+.sk-foot p {
+  margin: 0;
+  max-width: 44rem;
+}
+
+/* ---- motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-mark,
+  .sk-cite,
+  .sk-source,
+  .sk-node,
+  .sk-arrow,
+  .sk-arrow::after,
+  .sk-marker,
+  .sk-flowmark,
+  .sk-feature,
+  .sk-line,
+  .sk-code,
+  .sk .sk-btn {
+    transition: none;
+  }
+}
