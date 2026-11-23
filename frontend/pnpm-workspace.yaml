@@ -1,0 +1,5 @@
+# Newer pnpm refuses to install when a dependency has an unapproved build script.
+# These two are the ones this project has, so they are approved here.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
